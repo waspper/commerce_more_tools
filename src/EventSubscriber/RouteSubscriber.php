@@ -34,11 +34,14 @@ class RouteSubscriber extends RouteSubscriberBase {
         '_custom_access' => 'Drupal\commerce_more_tools\Access\CommercePaymentAccessCheck::checkAccess',
       ]);
     }
+    /*
+    // Previous route is overridden by Views. So, should we force this?
     if ($route = $collection->get('view.commerce_order_payments.page_1')) {
       $route->setRequirements([
         '_custom_access' => 'Drupal\commerce_more_tools\Access\CommercePaymentAccessCheck::checkAccess',
       ]);
     }
+    */
     // Alter access check to
     // "/admin/commerce/orders/{commerce_order}/payments/add".
     if ($route = $collection->get('entity.commerce_payment.add_form')) {
