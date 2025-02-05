@@ -1,0 +1,10 @@
+{
+  "name": "drupal/commerce_more_tools",
+  "type": "drupal-module",
+  "description": "Provides more tools for Drupal Commerce sites.",
+  "homepage": "https://github.com/waspper/commerce_more_tools",
+  "license": "GPL-2.0+",
+  "require": {
+    "drupal/commerce": "^2.16"
+  }
+}

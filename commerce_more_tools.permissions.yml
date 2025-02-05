@@ -1,0 +1,3 @@
+permission_callbacks:
+  - \Drupal\commerce_more_tools\StoreTypePermissions::buildPermissions
+  - \Drupal\commerce_more_tools\OrderTypePermissions::buildPermissions

@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * @file
+ * Common hook implementations for commerce_more_tools module.
+ */
+
+/**
+ * Implements hook_entity_type_build().
+ */
+function commerce_more_tools_entity_type_build(array &$entity_types) {
+  // @var $entity_types \Drupal\Core\Entity\EntityTypeInterface[]
+  $entity_types['commerce_payment']->setHandlerClass('access', 'Drupal\commerce_more_tools\PaymentAccessControlHandler');
+  $entity_types['commerce_order']->setHandlerClass('access', 'Drupal\commerce_more_tools\OrderAccessControlHandler');
+  $entity_types['commerce_order']->setHandlerClass('query_access', 'Drupal\commerce_more_tools\OrderQueryAccessHandler');
+  $entity_types['commerce_order_item_type']->setHandlerClass('access', 'Drupal\commerce_more_tools\OrderItemTypeAccessControlHandler');
+  $entity_types['commerce_order_item']->setHandlerClass('access', 'Drupal\commerce_more_tools\OrderItemAccessControlHandler');
+}
