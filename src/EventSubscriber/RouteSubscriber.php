@@ -27,9 +27,14 @@ class RouteSubscriber extends RouteSubscriberBase {
    * {@inheritdoc}
    */
   protected function alterRoutes(RouteCollection $collection) {
-    // @TODO: Fix access for "entity.commerce_payment.collection". It's overriden by Views,
-    // and therefore, not working here.
+    // Alter access check to
+    // "/admin/commerce/orders/{commerce_order}/payments".
     if ($route = $collection->get('entity.commerce_payment.collection')) {
+      $route->setRequirements([
+        '_custom_access' => 'Drupal\commerce_more_tools\Access\CommercePaymentAccessCheck::checkAccess',
+      ]);
+    }
+    if ($route = $collection->get('view.commerce_order_payments.page_1')) {
       $route->setRequirements([
         '_custom_access' => 'Drupal\commerce_more_tools\Access\CommercePaymentAccessCheck::checkAccess',
       ]);
