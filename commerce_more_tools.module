@@ -5,6 +5,8 @@
  * Common hook implementations for commerce_more_tools module.
  */
 
+use Drupal\Core\Entity\EntityInterface;
+
 /**
  * Implements hook_entity_type_build().
  */
@@ -15,4 +17,26 @@ function commerce_more_tools_entity_type_build(array &$entity_types) {
   $entity_types['commerce_order']->setHandlerClass('query_access', 'Drupal\commerce_more_tools\OrderQueryAccessHandler');
   $entity_types['commerce_order_item_type']->setHandlerClass('access', 'Drupal\commerce_more_tools\OrderItemTypeAccessControlHandler');
   $entity_types['commerce_order_item']->setHandlerClass('access', 'Drupal\commerce_more_tools\OrderItemAccessControlHandler');
+  $entity_types['commerce_product_variation']->setHandlerClass('access', 'Drupal\commerce_more_tools\ProductVariationAccessControlHandler');
+}
+
+/**
+ * Implements hook_entity_operation_alter().
+ */
+function commerce_more_tools_entity_operation_alter(array &$operations, EntityInterface $entity) {
+  if ($entity->getEntityTypeId() === 'commerce_product_variation') {
+    // The "duplicate" operation is hard-coded in
+    // upstream list builder as "create". Let's remove, if no
+    // proper permissions.
+    $current_user = \Drupal::currentUser();
+    $product = $entity->getProduct();
+    if (
+      $product->getOwner()->id() == $current_user->id() &&
+      isset($operations['duplicate']) &&
+      !$current_user->hasPermission('administer commerce_product') &&
+      !$current_user->hasPermission("duplicate product variation in own {$product->bundle()} product type")
+    ) {
+      unset($operations['duplicate']);
+    }
+  }
 }
