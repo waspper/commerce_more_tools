@@ -38,25 +38,24 @@ class ProductVariationAccessControlHandler extends ProductVariationAccessControl
     // so, need to deal with route parameters.
     // @TODO: Maybe is it good to provide a negotiator? If in the future,
     // we need to allow providing product from a different location than route.
-    $params = self::getRouteParameters();
+    $route_match = \Drupal::routeMatch();
+    $params = $route_match->getParameters()->all();
     if (isset($params['commerce_product']) && $params['commerce_product'] instanceof ProductInterface) {
       $product = $params['commerce_product'];
       if ($product->getOwner()->id() == $account->id()) {
         return AccessResult::allowedIfHasPermission($account, 'create product variation in own product')->cachePerUser();
       }
     }
+    // This is deliberated. Workaround for
+    // https://www.drupal.org/project/drupal/issues/3106315#comment-15607598,
+    // explained there. This should be removed later.
+    if ($route_match->getRouteName() === 'media_library.ui') {
+      if ($account->hasPermission('create product variation in own product')) {
+        return AccessResult::allowed();
+      }
+    }
 
     return parent::checkCreateAccess($account, $context, $entity_bundle);
-  }
-
-  /**
-   * Get current route parameters.
-   *
-   * @return array
-   *   The current route parameters.
-   */
-  public static function getRouteParameters() : array {
-    return \Drupal::routeMatch()->getParameters()->all();
   }
 
 }
