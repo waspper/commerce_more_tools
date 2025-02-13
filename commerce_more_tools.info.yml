@@ -1,7 +1,7 @@
 name: Commerce More Tools
 type: module
 description: 'Provides additional tools/features for Drupal Commerce.'
-package: Commerce
+package: Commerce (contrib)
 core_version_requirement: ^10
 dependencies:
   - commerce:commerce_order

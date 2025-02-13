@@ -1,0 +1,8 @@
+name: Commerce More Tools Shipping
+type: module
+description: 'More features for Commerce Shipping module.'
+package: Commerce (contrib)
+core_version_requirement: ^10
+dependencies:
+  - commerce:commerce_order
+  - drupal:commerce_shipping

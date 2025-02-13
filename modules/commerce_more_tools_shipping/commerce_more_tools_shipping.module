@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * @file
+ * Common hook implementations for commerce_more_tools_shipping module.
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+
+/**
+ * Implements hook_entity_type_build().
+ */
+function commerce_more_tools_shipping_entity_type_build(array &$entity_types) {
+  // @var $entity_types \Drupal\Core\Entity\EntityTypeInterface[]
+  $entity_types['commerce_shipment']->setHandlerClass('access', 'Drupal\commerce_more_tools_shipping\ShipmentAccessControlHandler');
+}
